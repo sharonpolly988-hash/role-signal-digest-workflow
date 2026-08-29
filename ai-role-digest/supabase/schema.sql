@@ -94,20 +94,63 @@ insert into public.feedback_filter_config (key, config)
 values (
   'active',
   '{
-    "allowed_locations": ["US", "Remote US", "New York", "San Francisco"],
+    "allowed_locations": ["New York", "NYC"],
     "blocked_locations": [],
-    "blocked_seniority_keywords": [],
+    "blocked_seniority_keywords": ["Director", "VP", "Vice President", "Chief Accounting Officer"],
     "max_years_experience": 6,
-    "require_hiring_signal": false,
-    "positive_title_boost_keywords": ["AI Builder", "AI Automation Engineer", "AI Agent Engineer", "AI Enablement", "AI Solutions Consultant"],
-    "positive_domain_boost_keywords": ["agentic AI", "workflow automation", "AI agents", "internal enablement", "GTM automation"],
-    "positive_workflow_boost_keywords": ["workflow automation", "operations automation", "process automation", "internal tools"],
-    "positive_agent_boost_keywords": ["AI Agent", "AI agents", "agentic AI", "LLM agent"],
-    "positive_location_boost_terms": ["US", "Remote US", "New York", "San Francisco"],
-    "acceptable_seniority_keywords": ["Associate", "Junior", "Entry", "Early Career", "Mid-level", "II"]
+    "require_hiring_signal": true,
+
+    "positive_title_boost_keywords": [
+      "Financial Analyst",
+      "Senior Financial Analyst",
+      "Staff Accountant",
+      "Senior Accountant",
+      "Financial Reporting Accountant",
+      "Corporate Accountant",
+      "Accounting Analyst"
+    ],
+
+    "positive_domain_boost_keywords": [
+      "accounting",
+      "financial reporting",
+      "financial analysis",
+      "GAAP",
+      "general ledger",
+      "month-end close",
+      "variance analysis",
+      "FP&A"
+    ],
+
+    "positive_workflow_boost_keywords": [
+      "month-end close",
+      "account reconciliation",
+      "financial reporting",
+      "budgeting",
+      "forecasting",
+      "variance analysis"
+    ],
+
+    "positive_agent_boost_keywords": [],
+
+    "positive_location_boost_terms": [
+      "New York",
+      "NYC"
+    ],
+
+    "acceptable_seniority_keywords": [
+      "Staff Accountant",
+      "Senior Accountant",
+      "Financial Analyst",
+      "Senior Financial Analyst",
+      "Associate",
+      "II"
+    ]
   }'::jsonb
 )
-on conflict (key) do nothing;
+on conflict (key)
+do update set
+  config = excluded.config,
+  updated_at = now();
 
 create table if not exists public.apify_query_performance (
   query text primary key,

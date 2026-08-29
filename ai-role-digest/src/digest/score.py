@@ -29,76 +29,98 @@ DEFAULT_GEMINI_MAX_OUTPUT_TOKENS = 256
 DEFAULT_LLM_POST_CHAR_LIMIT = 3000
 
 TARGET_TERMS = (
-    "ai enablement",
-    "applied ai",
-    "ai transformation",
-    "ai automation",
-    "internal ai",
-    "internal tooling",
-    "gtm engineer",
-    "automation",
-    "automations",
-    "agent",
-    "agents",
-    "llm",
-    "llms",
-    "workflow",
-    "founder's office",
+    "staff accountant",
+    "senior accountant",
+    "financial analyst",
+    "senior financial analyst",
+    "accountant",
+    "accounting analyst",
+    "financial accountant",
+    "financial reporting accountant",
+    "corporate accountant",
+    "accounting",
+    "financial analysis",
+    "fp&a",
 )
+
 STRONG_TARGET_TERMS = (
-    "ai enablement",
-    "applied ai",
-    "ai transformation",
-    "ai automation",
-    "internal ai",
-    "internal tooling",
+    "staff accountant",
+    "senior accountant",
+    "financial analyst",
+    "senior financial analyst",
 )
-AGENT_TERMS = ("agent", "agents", "agentic", "llm", "llms", "rag")
-WORKFLOW_TERMS = ("automation", "automations", "workflow", "workflows")
-BUILDER_TERMS = (
-    "build",
-    "building",
-    "engineer",
-    "engineering",
-    "hands-on",
-    "implement",
-    "ship",
+
+ACCOUNTING_SKILL_TERMS = (
+    "gaap",
+    "general ledger",
+    "month-end close",
+    "month end close",
+    "journal entry",
+    "journal entries",
+    "reconciliation",
+    "reconciliations",
+    "financial reporting",
+    "financial statements",
+    "accrual",
+    "accruals",
+    "prepaid",
+    "prepaids",
+    "balance sheet",
+    "income statement",
 )
-GTM_TERMS = ("gtm", "go-to-market", "founder's office", "sales automation")
+
+ANALYSIS_TERMS = (
+    "financial analysis",
+    "variance analysis",
+    "budget",
+    "budgeting",
+    "forecast",
+    "forecasting",
+    "fp&a",
+    "financial modeling",
+    "financial model",
+)
+
 POSITIVE_LOCATION_TERMS = (
-    "remote us",
-    "us remote",
-    "united states",
     "new york",
+    "new york city",
     "nyc",
-    "san francisco",
-    "bay area",
+    "manhattan",
+    "brooklyn",
+    "queens",
+    "bronx",
+    "staten island",
 )
+
 REJECT_TERMS = (
     "account executive",
-    "applied scientist",
-    "client success",
-    "customer success",
-    "director",
-    "founder associate",
-    "machine learning research",
-    "ml research",
-    "non-technical strategy",
-    "phd",
-    "postdoc",
-    "principal scientist",
-    "research scientist",
-    "sales executive",
-    "solutions engineer",
+    "bookkeeper",
+    "bookkeeping",
+    "payroll specialist",
+    "payroll coordinator",
+    "tax preparer",
+    "tax associate",
+    "audit associate",
+    "auditor",
+    "accounts payable clerk",
+    "accounts receivable clerk",
+    "controller",
+    "assistant controller",
+    "director of accounting",
+    "chief accounting officer",
     "vice president",
 )
+
 TOO_SENIOR_TERMS = (
     "director",
     "principal",
-    "staff",
+    "controller",
+    "assistant controller",
     "vice president",
     "vp",
+    "chief accounting officer",
 )
+
 CANDIDATE_JOB_SEARCH_PATTERNS = (
     r"\bi(?:'| a)?m currently seeking\b",
     r"\bi(?:'| a)?m seeking\b",
@@ -296,15 +318,13 @@ def _rule_score(post: Post) -> ScoredPost:
             score += points
             matched.append(label)
 
-    add_signal("strong applied-AI signal", STRONG_TARGET_TERMS, 2)
-    add_signal("AI agent/LLM work", AGENT_TERMS, 1)
-    add_signal("workflow automation", WORKFLOW_TERMS, 1)
-    add_signal("hands-on building", BUILDER_TERMS, 1)
-    add_signal("GTM/founder's-office work", GTM_TERMS, 1)
-    add_signal("preferred US location", POSITIVE_LOCATION_TERMS, 1)
+    add_signal("target role match", STRONG_TARGET_TERMS, 2)
+    add_signal("accounting/reporting skills", ACCOUNTING_SKILL_TERMS, 1)
+    add_signal("financial analysis skills", ANALYSIS_TERMS, 1)
+    add_signal("New York location", POSITIVE_LOCATION_TERMS, 2)
 
     final_score = min(10, score)
-    reason = "Rule-based match: " + ", ".join(matched or ["general target-role signal"])
+    reason = "Rule-based match: " + ", ".join(matched or ["general accounting/finance target-role signal"])
     return ScoredPost(
         post=post,
         score=final_score,

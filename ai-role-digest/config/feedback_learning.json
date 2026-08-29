@@ -1,30 +1,63 @@
 {
-  "allowed_locations": ["US", "Remote US", "New York", "San Francisco"],
+  "allowed_locations": ["New York", "NYC"],
   "blocked_locations": [],
-  "blocked_seniority_keywords": [],
+  "blocked_seniority_keywords": [
+    "Director",
+    "Vice President",
+    "VP",
+    "Chief Accounting Officer"
+  ],
   "max_years_experience": 6,
   "require_hiring_signal": true,
+
   "positive_title_boost_keywords": [
-    "AI Builder",
-    "AI Automation Engineer",
-    "AI Agent Engineer",
-    "AI Enablement",
-    "AI Solutions Consultant"
+    "Staff Accountant",
+    "Senior Accountant",
+    "Financial Analyst",
+    "Senior Financial Analyst",
+    "Accounting Analyst",
+    "Financial Reporting Accountant",
+    "Corporate Accountant"
   ],
+
   "positive_domain_boost_keywords": [
-    "agentic AI",
-    "workflow automation",
-    "AI agents",
-    "internal enablement",
-    "GTM automation"
+    "accounting",
+    "financial reporting",
+    "financial analysis",
+    "GAAP",
+    "general ledger",
+    "month-end close",
+    "variance analysis",
+    "budgeting",
+    "forecasting",
+    "FP&A"
   ],
+
   "positive_workflow_boost_keywords": [
-    "workflow automation",
-    "operations automation",
-    "process automation",
-    "internal tools"
+    "month-end close",
+    "journal entries",
+    "account reconciliation",
+    "bank reconciliation",
+    "financial reporting",
+    "variance analysis",
+    "budgeting",
+    "forecasting"
   ],
-  "positive_agent_boost_keywords": ["AI Agent", "AI agents", "agentic AI", "LLM agent"],
-  "positive_location_boost_terms": ["US", "Remote US", "New York", "San Francisco"],
-  "acceptable_seniority_keywords": ["Associate", "Junior", "Entry", "Early Career", "Mid-level", "II"]
+
+  "positive_agent_boost_keywords": [],
+
+  "positive_location_boost_terms": [
+    "New York",
+    "NYC"
+  ],
+
+  "acceptable_seniority_keywords": [
+    "Staff Accountant",
+    "Senior Accountant",
+    "Financial Analyst",
+    "Senior Financial Analyst",
+    "Associate",
+    "Mid-level",
+    "II"
+  ]
 }
